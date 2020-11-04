@@ -9,28 +9,28 @@ afterEach(() => {
 });
 
 describe('DatePicker', () => {
-  it('feat: open and close the popup', () => {
+  it('feat: open and close the popup', async () => {
     wrapper = mount(DatePicker, {
-      attachToDocument: true,
+      attachTo: document.body,
     });
     expect(wrapper.find('.mx-datepicker-popup').exists()).toBe(false);
     // expect click input should show the popup
     const input = wrapper.find('input');
-    input.trigger('mousedown');
+    await input.trigger('mousedown');
     expect(wrapper.find('.mx-datepicker-popup').exists()).toBe(true);
     // expect click out side should hide the popup
     const bodyWrapper = createWrapper(document.body);
-    bodyWrapper.trigger('mousedown');
+    await bodyWrapper.trigger('mousedown');
     expect(wrapper.find('.mx-datepicker-popup').exists()).toBe(false);
     // expect focus input should show the popop
-    input.trigger('focus');
+    await input.trigger('focus');
     expect(wrapper.find('.mx-datepicker-popup').exists()).toBe(true);
     // expoce keydown tab should hide the popup
-    input.trigger('keydown.tab');
+    await input.trigger('keydown.tab');
     expect(wrapper.find('.mx-datepicker-popup').exists()).toBe(false);
   });
 
-  it('feat: should init panel and calendar when reopen', () => {
+  it('feat: should init panel and calendar when reopen', async () => {
     wrapper = mount(DatePicker, {
       propsData: {
         defaultValue: new Date(2019, 9, 1),
@@ -38,15 +38,15 @@ describe('DatePicker', () => {
       },
     });
     const yearBtn = wrapper.find('.mx-btn-current-year');
-    yearBtn.trigger('click');
+    await yearBtn.trigger('click');
     // change to year panel
     expect(wrapper.find('.mx-calendar-panel-year').exists()).toBe(true);
-    wrapper.setProps({ open: false });
-    wrapper.setProps({ open: true });
+    await wrapper.setProps({ open: false });
+    await wrapper.setProps({ open: true });
     expect(wrapper.find('.mx-calendar-panel-year').exists()).toBe(false);
   });
 
-  it('prop: open', () => {
+  it('prop: open', async () => {
     wrapper = mount(DatePicker, {
       propsData: {
         open: false,
@@ -55,7 +55,7 @@ describe('DatePicker', () => {
     const { vm } = wrapper;
     vm.openPopup();
     expect(wrapper.find('.mx-datepicker-popup').exists()).toBe(false);
-    wrapper.setProps({ open: true });
+    await wrapper.setProps({ open: true });
     expect(wrapper.find('.mx-datepicker-popup').exists()).toBe(true);
     vm.closePopup();
     expect(wrapper.find('.mx-datepicker-popup').exists()).toBe(true);
@@ -209,10 +209,10 @@ describe('DatePicker', () => {
       },
     });
     const btn = wrapper.find('.mx-btn-shortcut');
-    btn.trigger('click');
+    await btn.trigger('click');
     const emitted = wrapper.emitted();
     expect(emitted.input).toEqual([['2019/05/10']]);
-    wrapper.setProps({
+    await wrapper.setProps({
       range: true,
       shortcuts: [
         {
