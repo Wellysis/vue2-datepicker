@@ -161,7 +161,7 @@ export default {
       }
     },
     handleClickTitle() {
-      this.$emit('title-click');
+      this.$emit('clicktitle');
     },
     getClasses(value) {
       const cellDate = new Date(value);

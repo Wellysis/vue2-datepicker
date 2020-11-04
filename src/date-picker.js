@@ -169,7 +169,7 @@ export default {
         value = Array.isArray(value) ? value.slice(0, 2) : [null, null];
         return value.map(this.value2date);
       }
-      return this.value2date(this.value);
+      return this.value2date(value);
     },
     text() {
       if (this.userInput !== null) {

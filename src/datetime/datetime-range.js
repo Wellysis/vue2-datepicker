@@ -87,7 +87,7 @@ export default {
       },
       on: {
         select: this.emitDate,
-        'title-click': this.closeTimePanel,
+        clicktitle: this.closeTimePanel,
       },
     };
 
