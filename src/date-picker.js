@@ -2,7 +2,7 @@ import { parse, format, getWeek } from 'date-format-parse';
 import { isValidDate, isValidRangeDate, isValidDates } from './util/date';
 import { pick, isObject, mergeDeep } from './util/base';
 import { getLocale } from './locale';
-import Popup from './popup.vue';
+import Popup from './popup';
 import IconCalendar from './icon/icon-calendar';
 import IconClose from './icon/icon-close';
 import CalendarPanel from './calendar/calendar-panel';
@@ -453,10 +453,14 @@ export default {
         input: this.handleInputInput,
         change: this.handleInputChange,
       };
-      const input = this.renderSlot('input', <input value={value} {...{ attrs, on: events }} />, {
-        props,
-        events,
-      });
+      const input = this.renderSlot(
+        'input',
+        <input value={value} {...{ attrs, on: events }} ref="input" />,
+        {
+          props,
+          events,
+        }
+      );
       return (
         <div class={`${prefixClass}-input-wrapper`} onMousedown={this.openPopup}>
           {input}
@@ -472,18 +476,15 @@ export default {
       );
     },
     renderContent() {
-      const createElement = this.$createElement;
       const map = this.range ? componentRangeMap : componentMap;
-      const component = map[this.type] || map.default;
+      const Component = map[this.type] || map.default;
       const props = {
-        ...pick(this, Object.keys(component.props)),
+        ...pick(this, Object.keys(Component.props)),
         value: this.currentValue,
       };
-      const content = createElement(component, {
-        props,
-        on: { select: this.handleSelectDate },
-        ref: 'picker',
-      });
+      const content = (
+        <Component {...{ props, on: { select: this.handleSelectDate }, ref: 'picker' }} />
+      );
       return (
         <div class={`${this.prefixClass}-datepicker-body`}>
           {this.renderSlot('content', content, { value: this.currentValue, emit: this.emitValue })}
