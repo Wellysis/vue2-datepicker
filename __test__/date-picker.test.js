@@ -1,5 +1,6 @@
 import { shallowMount, createWrapper, mount } from '@vue/test-utils';
 import { format, parse } from 'date-fns';
+import Popup from '../src/popup';
 import DatePicker from '../src/date-picker';
 
 let wrapper;
@@ -161,7 +162,7 @@ describe('DatePicker', () => {
     expect(tableDate.element).toMatchSnapshot();
   });
 
-  it('prop: valueType', () => {
+  it('prop: valueType', async () => {
     const value = new Date(2019, 9, 20);
     const emitValue = new Date(2019, 9, 22);
     wrapper = shallowMount(DatePicker, {
@@ -173,13 +174,13 @@ describe('DatePicker', () => {
     const { vm } = wrapper;
     expect(vm.text).toBe('2019/10/20');
     vm.emitValue(emitValue);
-    wrapper.setProps({ valueType: 'format', value: '2019/10/20' });
+    await wrapper.setProps({ valueType: 'format', value: '2019/10/20' });
     expect(vm.text).toBe('2019/10/20');
     vm.emitValue(emitValue);
-    wrapper.setProps({ valueType: 'timestamp', value: value.getTime() });
+    await wrapper.setProps({ valueType: 'timestamp', value: value.getTime() });
     expect(vm.text).toBe('2019/10/20');
     vm.emitValue(emitValue);
-    wrapper.setProps({ valueType: 'DD/MM/YYYY', value: '20/10/2019' });
+    await wrapper.setProps({ valueType: 'DD/MM/YYYY', value: '20/10/2019' });
     expect(vm.text).toBe('2019/10/20');
     vm.emitValue(emitValue);
     const emitted = wrapper.emitted();
@@ -234,7 +235,7 @@ describe('DatePicker', () => {
         popupClass: 'test',
       },
     });
-    const popup = wrapper.find('.mx-datepicker-popup');
+    const popup = wrapper.findComponent(Popup);
     expect(popup.classes()).toContain('test');
   });
 
@@ -247,7 +248,7 @@ describe('DatePicker', () => {
         },
       },
     });
-    const popup = wrapper.find('.mx-datepicker-popup');
+    const popup = wrapper.findComponent(Popup);
     expect(popup.element.style.color).toBe('red');
   });
 
@@ -291,7 +292,7 @@ describe('DatePicker', () => {
       },
     });
 
-    const popup = wrapper.find('.mx-datepicker-popup');
+    const popup = wrapper.findComponent(Popup);
     expect(popup.element.parentNode).toBe(document.body);
   });
 

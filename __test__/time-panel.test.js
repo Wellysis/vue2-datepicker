@@ -105,7 +105,7 @@ describe('TimePanel', () => {
         format: {},
       },
     });
-    const cols = wrapper.find(ListColumns);
+    const cols = wrapper.findComponent(ListColumns);
     expect(cols.props('showHour')).toBe(true);
     expect(cols.props('showMinute')).toBe(true);
     expect(cols.props('showSecond')).toBe(true);
