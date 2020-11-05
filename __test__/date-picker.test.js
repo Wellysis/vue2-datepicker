@@ -252,21 +252,21 @@ describe('DatePicker', () => {
     expect(popup.element.style.color).toBe('red');
   });
 
-  it('prop: confirm', () => {
+  it('prop: confirm', async () => {
     wrapper = shallowMount(DatePicker, {
       propsData: {
         confirm: true,
       },
     });
     const { vm } = wrapper;
-    vm.openPopup();
+    await wrapper.find('input').trigger('focus');
     const btn = wrapper.find('.mx-datepicker-btn-confirm');
     expect(btn.exists()).toBe(true);
     // click the date expect popup don't close
     vm.handleSelectDate(new Date(2018, 5, 5));
     expect(wrapper.emitted().input).toBeUndefined();
     expect(vm.popupVisible).toBe(true);
-    btn.trigger('click');
+    await btn.trigger('click');
     expect(wrapper.emitted().input[0][0]).toEqual(new Date(2018, 5, 5));
     expect(vm.popupVisible).toBe(false);
   });
@@ -367,7 +367,7 @@ describe('DatePicker', () => {
     expect(wrapper.emitted().pick[0][0]).toEqual(new Date(2019, 8, 29));
   });
 
-  it('Ignore whitespace around separator on manual range input', () => {
+  it('Ignore whitespace around separator on manual range input', async () => {
     const rangeSeparator = ' ~ ';
     const text = '2020-02-12';
     wrapper = mount(DatePicker, {
@@ -379,13 +379,13 @@ describe('DatePicker', () => {
     });
     const input = wrapper.find('input');
 
-    input.setValue(`${text} ${rangeSeparator} ${text}`);
-    input.trigger('change');
-    input.setValue(`${text}${rangeSeparator.trim()}${text}`);
-    input.trigger('change');
-    wrapper.setProps({ rangeSeparator: ' - ' });
-    input.setValue(`${text} - ${text}`);
-    input.trigger('change');
+    await input.setValue(`${text} ${rangeSeparator} ${text}`);
+    await input.trigger('change');
+    await input.setValue(`${text}${rangeSeparator.trim()}${text}`);
+    await input.trigger('change');
+    await wrapper.setProps({ rangeSeparator: ' - ' });
+    await input.setValue(`${text} - ${text}`);
+    await input.trigger('change');
     expect(wrapper.emitted().input).toEqual([[[text, text]], [[text, text]], [[text, text]]]);
   });
 

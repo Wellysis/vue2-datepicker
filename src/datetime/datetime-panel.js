@@ -64,7 +64,7 @@ export default {
   render() {
     const calendarProps = {
       props: {
-        ...pick(this, Object.keys(CalendarPanel.props)),
+        ...pick(this.$props, Object.keys(CalendarPanel.props)),
         type: 'date',
         value: this.currentValue,
       },
@@ -74,7 +74,7 @@ export default {
     };
     const timeProps = {
       props: {
-        ...pick(this, Object.keys(TimePanel.props)),
+        ...pick(this.$props, Object.keys(TimePanel.props)),
         showTimeHeader: true,
         value: this.currentValue,
       },

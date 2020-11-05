@@ -42,7 +42,7 @@ describe('DatetimePanel', () => {
     expect(timeTitle.text()).toBe('2019-10-02');
     // set the defaultValue is not disabled
     const defaultValue = new Date(2019, 9, 2, 12);
-    wrapper.setProps({ defaultValue });
+    await wrapper.setProps({ defaultValue });
     await td.trigger('click');
     expect(wrapper.emitted().select[0][0]).toEqual(defaultValue);
   });

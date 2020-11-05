@@ -44,10 +44,10 @@ export default {
         this.innerValue = isValidRangeDate(this.value)
           ? this.value
           : [new Date(NaN), new Date(NaN)];
-        this.calendars = this.innerValue.map((v, i) =>
+        const calendars = this.innerValue.map((v, i) =>
           startOfMonth(getValidDate(v, this.defaultValues[i]))
         );
-        this.validateCalendars(1);
+        this.updateCalendars(calendars);
       },
     },
   },
@@ -69,27 +69,22 @@ export default {
       this.$emit('select', dates, type);
     },
     updateStartCalendar(value) {
-      this.calendars.splice(0, 1, value);
-      this.validateCalendars(1);
+      this.updateCalendars([value, this.calendars[1]], 1);
     },
     updateEndCalendar(value) {
-      this.calendars.splice(1, 1, value);
-      this.validateCalendars(0);
+      this.updateCalendars([this.calendars[0], value], 0);
     },
-    validateCalendars(index) {
-      const gap = this.getCalendarGap();
+    updateCalendars(calendars, adjustIndex = 1) {
+      const gap = this.getCalendarGap(calendars);
       if (gap) {
-        const calendar = new Date(this.calendars[index]);
-        if (index === 0) {
-          calendar.setMonth(calendar.getMonth() - gap);
-        } else {
-          calendar.setMonth(calendar.getMonth() + gap);
-        }
-        this.calendars.splice(index, 1, calendar);
+        const calendar = new Date(calendars[adjustIndex]);
+        calendar.setMonth(calendar.getMonth() + (adjustIndex === 0 ? -gap : gap));
+        calendars[adjustIndex] = calendar;
       }
+      this.calendars = calendars;
     },
-    getCalendarGap() {
-      const [calendarLeft, calendarRight] = this.calendars;
+    getCalendarGap(calendars) {
+      const [calendarLeft, calendarRight] = calendars;
       const yearDiff = calendarRight.getFullYear() - calendarLeft.getFullYear();
       const monthDiff = calendarRight.getMonth() - calendarLeft.getMonth();
       const diff = yearDiff * 12 + monthDiff;

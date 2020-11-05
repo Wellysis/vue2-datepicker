@@ -479,7 +479,7 @@ export default {
       const map = this.range ? componentRangeMap : componentMap;
       const Component = map[this.type] || map.default;
       const props = {
-        ...pick(this, Object.keys(Component.props)),
+        ...pick(this.$props, Object.keys(Component.props)),
         value: this.currentValue,
       };
       const content = (

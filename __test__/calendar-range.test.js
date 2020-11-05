@@ -45,14 +45,13 @@ describe('CalendarRange', () => {
         defaultValue: new Date(2019, 6, 1),
       },
     });
-    const panels = wrapper.findAllComponents(CalendarPanel);
-    const startPanel = panels.at(0);
-    const endPanel = panels.at(1);
+    const firstRightIcon = wrapper.find('.mx-calendar-panel-date .mx-btn-icon-right');
+    const secondLeftIcon = wrapper.find('.mx-calendar-panel-date:nth-child(2) .mx-btn-icon-left');
 
-    await startPanel.find('.mx-btn-icon-right').trigger('click');
+    await firstRightIcon.trigger('click');
     expect(wrapper.vm.calendars).toEqual([new Date(2019, 7, 1), new Date(2019, 8, 1)]);
 
-    await endPanel.find('.mx-btn-icon-left').trigger('click');
+    await secondLeftIcon.trigger('click');
     expect(wrapper.vm.calendars).toEqual([new Date(2019, 6, 1), new Date(2019, 7, 1)]);
   });
 
