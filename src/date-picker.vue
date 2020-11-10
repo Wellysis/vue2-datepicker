@@ -7,7 +7,7 @@
       disabled: disabled,
     }"
   >
-    <div v-if="!inline" :class="`${prefixClass}-input-wrapper`" @mousedown="openPopup">
+    <div v-if="!inline" :class="`${prefixClass}-input-wrapper`" @mousedown="togglePopup">
       <slot
         name="input"
         :props="{
@@ -51,16 +51,7 @@
           }"
         />
       </slot>
-      <i v-if="showClearIcon" :class="`${prefixClass}-icon-clear`" @mousedown.stop="handleClear">
-        <slot name="icon-clear">
-          <icon-close></icon-close>
-        </slot>
-      </i>
-      <i :class="`${prefixClass}-icon-calendar`">
-        <slot name="icon-calendar">
-          <icon-calendar></icon-calendar>
-        </slot>
-      </i>
+      <i :class="`${prefixClass}-icon-calendar`" />
     </div>
     <Popup
       ref="popup"
@@ -485,6 +476,13 @@ export default {
         if (date) {
           this.emitValue(date);
         }
+      }
+    },
+    togglePopup(evt) {
+      if (this.defaultOpen) {
+        this.closePopup();
+      } else {
+        this.openPopup();
       }
     },
     openPopup(evt) {

@@ -7,14 +7,7 @@
 .#{$namespace}-datepicker {
   position: relative;
   display: inline-block;
-  width: 210px;
-  svg {
-    width: 1em;
-    height: 1em;
-    vertical-align: -0.15em;
-    fill: currentColor;
-    overflow: hidden;
-  }
+  width: 100%;
 }
 
 .#{$namespace}-datepicker-range {
@@ -44,13 +37,13 @@
   display: inline-block;
   box-sizing: border-box;
   width: 100%;
-  height: 34px;
+  height: 40px;
   padding: 6px 30px;
   padding-left: 10px;
   font-size: 14px;
-  line-height: 1.4;
+  line-height: 40px;
   color: $input-color;
-  background-color: #fff;
+  background-color: $input-background;
   border: 1px solid $input-border-color;
   border-radius: $input-border-radius;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -84,6 +77,9 @@
   line-height: 1;
   color: rgba(0, 0, 0, 0.5);
   vertical-align: middle;
+  background: $calendar-icon no-repeat center center;
+  width: 20px;
+  height: 20px;
 }
 
 .#{$namespace}-icon-clear {
@@ -96,7 +92,7 @@
 .#{$namespace}-datepicker-main {
   font: 14px/1.5 'Helvetica Neue', Helvetica, Arial, 'Microsoft Yahei', sans-serif;
   color: $default-color;
-  background-color: #fff;
+  background-color: $datepicker-background;
   border: 1px solid $border-color;
 }
 
@@ -365,4 +361,10 @@
     color: $disabled-color;
     background-color: $disabled-background-color;
   }
+}
+
+.calendar-image {
+  background: $calendar-icon no-repeat center center;
+  width: 20px;
+  height: 20px;
 }
